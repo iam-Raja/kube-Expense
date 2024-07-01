@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  # these labels belongs to replicaset resource
+  namespace: expense
+  labels:
+    tier: db
+    component: mysql
+    project: expense
+spec:
+  # modify replicas according to your case
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: db
+      component: mysql
+      project: expense
+  # below is pod definition    
+  template:
+    metadata:
+    # these labels belongs to pod
+      labels:
+        tier: db
+        component: mysql
+        project: expense
+    spec:
+      containers:
+      - name: nginx
+        image: iamraja/mysql:v1.0
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: expense
+spec:
+  selector:
+        tier: db
+        component: mysql
+        project: expense
+  ports:
+  - protocol: TCP
+    port: 3306 #service-port
+    targetPort: 3306 #targetport
+
