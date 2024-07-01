@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend
+data:
+ DB_HOST: mysql
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  # these labels belongs to replicaset resource
+  namespace: expense
+  labels:
+    tier: app
+    component: backend
+    project: expense
+spec:
+  # modify replicas according to your case
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: app
+      component: backend
+      project: expense
+  # below is pod definition    
+  template:
+    metadata:
+    # these labels belongs to pod
+      labels:
+        tier: app
+        component: backend
+        project: expense
+    spec:
+      containers:
+      - name: nginx
+        image: iamraja/backend:v1.0
+        envFrom:
+        - configMapRef:
+          name: backend
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: expense
+spec:
+  selector:
+        tier: app
+        component: backend
+        project: expense
+  ports:
+  - protocol: TCP
+    port: 8080 #service-port
+    targetPort: 8080 #targetport
+
