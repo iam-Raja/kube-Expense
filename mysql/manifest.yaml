@@ -17,13 +17,7 @@ spec:
       component: mysql
       project: expense
   # below is pod definition 
-  resources:
-    requests:                       # softlimit
-        memory: "64Mi"
-        cpu: "250m"
-    limits:                   #hardlimit
-        memory: "128Mi"
-        cpu: "500m"   
+  
   template:
     metadata:
     # these labels belongs to pod
@@ -35,6 +29,13 @@ spec:
       containers:
       - name: nginx
         image: iamraja/mysql:v1.0
+        resources:
+          requests:                       # softlimit
+              memory: "64Mi"
+              cpu: "250m"
+          limits:                   #hardlimit
+              memory: "128Mi"
+              cpu: "500m" 
 
 ---
 apiVersion: v1
