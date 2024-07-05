@@ -44,4 +44,10 @@ spec:
   - protocol: TCP
     port: 3306 #service-port
     targetPort: 3306 #targetport
-
+  resources:
+    requests:                       # softlimit
+        memory: "64Mi"
+        cpu: "250m"
+    limits:                   #hardlimit
+        memory: "128Mi"
+        cpu: "500m"
