@@ -29,6 +29,16 @@ spec:
       containers:
       - name: nginx
         image: iamraja/mysql:v1.0
+        readinessProbe:
+          tcpSocket:
+            port: 3306
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: 3306
+          initialDelaySeconds: 10
+          periodSeconds: 5
         resources:
           requests:                       # softlimit
               memory: "64Mi"
