@@ -156,3 +156,16 @@ spec:
     port: 80 #service-port
     targetPort: 8080 #targetport
 
+---
+#To Add external ingress-alb to frontend
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: TargetGroupBinding
+metadata:
+  name: frontend
+   namespace: expense
+spec:
+  serviceRef:
+    name: frontend # route traffic to the frontend-service
+    port: 80
+  targetGroupARN: <arn-to-targetGroup>    #Get this from admin(ALB-Public) 
+
